@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Set;
 
@@ -25,20 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
         mTextView = findViewById(R.id.textview);
 
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+        if (getIntent() != null && getIntent().hasExtra("key1")){
 
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "onComplete: "+task.getResult().getToken());
-                            mTextView.setText(task.getResult().getToken());
-                        }
-                        else {
-                            Log.d(TAG, "onComplete: "+task.getException());
-                        }
-                    }
-                });
+            mTextView.setText("");
+            for (String key : getIntent().getExtras().keySet()) {
+                mTextView.append(key+",  Data: "+getIntent().getExtras().getString(key)+"\n");
+            }
+
+        }
 
     }
 }
