@@ -25,6 +25,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mTextView = findViewById(R.id.textview);
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (task.isSuccessful())
+                        {
+                            Log.d(TAG, "onComplete: "+task.getResult().getToken());
+                        }
+                    }
+                });
 
         if (getIntent() != null && getIntent().hasExtra("key1")){
 
